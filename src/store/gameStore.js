@@ -7,6 +7,8 @@ export const useGameStore = create((set) => ({
   streak: 0,
   combo: 1,
 
+  stats: {},
+
   increaseScore: () =>
     set((state) => ({
       score: state.score + 10 * state.combo,
@@ -22,5 +24,24 @@ export const useGameStore = create((set) => ({
     set({
       streak: 0,
       combo: 1,
+    }),
+
+  registerAnswer: (sound, correct) =>
+    set((state) => {
+      const current = state.stats[sound] || {
+        correct: 0,
+        wrong: 0,
+      };
+
+      return {
+        stats: {
+          ...state.stats,
+          [sound]: {
+            correct: current.correct + (correct ? 1 : 0),
+
+            wrong: current.wrong + (!correct ? 1 : 0),
+          },
+        },
+      };
     }),
 }));

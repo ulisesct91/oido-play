@@ -1,34 +1,37 @@
-// src/data/vowels.js
-
 export const vowelsQuestions = [
   {
     id: 1,
     sound: "a",
-    options: ["A", "E", "O"],
     correct: "A",
+    distractors: ["E", "O", "U"],
+    difficulty: 1,
   },
   {
     id: 2,
     sound: "e",
-    options: ["E", "I", "A"],
     correct: "E",
+    distractors: ["I", "A", "O"],
+    difficulty: 1,
   },
   {
     id: 3,
     sound: "i",
-    options: ["I", "O", "U"],
     correct: "I",
+    distractors: ["E", "U", "O"],
+    difficulty: 2,
   },
   {
     id: 4,
     sound: "o",
-    options: ["O", "A", "E"],
     correct: "O",
+    distractors: ["A", "U", "E"],
+    difficulty: 2,
   },
   {
     id: 5,
     sound: "u",
-    options: ["U", "I", "A"],
     correct: "U",
+    distractors: ["O", "I", "A"],
+    difficulty: 3,
   },
 ];
