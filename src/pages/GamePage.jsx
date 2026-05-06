@@ -19,6 +19,8 @@ import {
 
 import { SessionCompleteModal } from "../components/game/SessionCompleteModal";
 
+import { BackgroundDecor } from "../components/game/BackgroundDecor";
+
 const SESSION_LENGTH = 10;
 
 export function GamePage() {
@@ -140,6 +142,7 @@ export function GamePage() {
 
   return (
     <Screen>
+      <BackgroundDecor />
       {sessionComplete && (
         <SessionCompleteModal
           score={score}

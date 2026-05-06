@@ -34,17 +34,46 @@ const Button = styled(motion.button)`
   cursor: pointer;
 
   background: ${({ correct, wrong, showCorrectAnswer }) => {
-    if (correct) return "#50FA7B";
-
-    if (showCorrectAnswer) {
-      return "#50FA7B";
+    if (correct) {
+      return `
+        linear-gradient(
+          180deg,
+          #7dffb3,
+          #50c878
+        )
+      `;
     }
 
-    if (wrong) return "#FF6B6B";
+    if (showCorrectAnswer) {
+      return `
+        linear-gradient(
+          180deg,
+          #7dffb3,
+          #50c878
+        )
+      `;
+    }
 
-    return "#f4f1ff";
+    if (wrong) {
+      return `
+        linear-gradient(
+          180deg,
+          #ff9f9f,
+          #ff6b6b
+        )
+      `;
+    }
+
+    return `
+      linear-gradient(
+        180deg,
+        #ffffff,
+        #f3efff
+      )
+    `;
   }};
 
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
   color: #191442;
 
   transition:

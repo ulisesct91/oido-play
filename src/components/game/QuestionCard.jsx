@@ -73,9 +73,13 @@ const Card = styled(motion.div)`
 
   border-radius: 38px;
 
-  background: white;
+  background: rgba(255, 255, 255, 0.75);
 
-  box-shadow: 0 20px 50px rgba(80, 65, 150, 0.12);
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 20px 80px rgba(80, 65, 150, 0.18),
+    0 8px 24px rgba(255, 255, 255, 0.3) inset;
 
   text-align: center;
 `;
@@ -101,7 +105,7 @@ const ListenButton = styled(motion.button)`
   border-radius: 999px;
   border: 0;
 
-  background: linear-gradient(180deg, #7b61ff, #5c45f5);
+  background: linear-gradient(180deg, #8b73ff, #5c45f5);
 
   color: white;
 
