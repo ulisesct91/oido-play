@@ -7,6 +7,9 @@ export const useGameStore = create((set) => ({
   streak: 0,
   combo: 1,
 
+  totalAnswers: 0,
+  correctAnswers: 0,
+
   stats: {},
 
   increaseScore: () =>
@@ -18,12 +21,30 @@ export const useGameStore = create((set) => ({
     set((state) => ({
       streak: state.streak + 1,
       combo: Math.min(state.combo + 0.2, 3),
+
+      totalAnswers: state.totalAnswers + 1,
+
+      correctAnswers: state.correctAnswers + 1,
+    })),
+
+  registerWrongAnswer: () =>
+    set((state) => ({
+      totalAnswers: state.totalAnswers + 1,
     })),
 
   resetGameState: () =>
     set({
       streak: 0,
       combo: 1,
+    }),
+
+  resetSession: () =>
+    set({
+      score: 0,
+      streak: 0,
+      combo: 1,
+      totalAnswers: 0,
+      correctAnswers: 0,
     }),
 
   registerAnswer: (sound, correct) =>

@@ -1,7 +1,7 @@
 // src/pages/GamePage.jsx
 
 import styled from "styled-components";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { vowelsQuestions } from "../data/vowels";
 import { AnimatePresence } from "framer-motion";
 import { useGameStore } from "../store/gameStore";
@@ -17,6 +17,10 @@ import {
   selectAdaptiveQuestion,
 } from "../utils/gameEngine";
 
+import { SessionCompleteModal } from "../components/game/SessionCompleteModal";
+
+const SESSION_LENGTH = 10;
+
 export function GamePage() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -27,6 +31,8 @@ export function GamePage() {
 
   const [shakeCard, setShakeCard] = useState(false);
 
+  const [sessionComplete, setSessionComplete] = useState(false);
+
   const {
     score,
     streak,
@@ -36,6 +42,10 @@ export function GamePage() {
     resetGameState,
     stats,
     registerAnswer,
+    totalAnswers,
+    correctAnswers,
+    registerWrongAnswer,
+    resetSession,
   } = useGameStore();
   const difficulty = calculateDifficulty(streak);
 
@@ -59,21 +69,20 @@ export function GamePage() {
 
   const progress = ((questionIndex + 1) / vowelsQuestions.length) * 100;
 
+  const accuracy =
+    totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
+
   const nextQuestion = () => {
     const delay = difficulty >= 3 ? 900 : 1300;
-
+    console.log("questionIndex", questionIndex);
     setTimeout(() => {
+      if (questionIndex >= SESSION_LENGTH - 1) {
+        setSessionComplete(true);
+        return;
+      }
       setCurrentQuestion(generateQuestion());
 
-      setQuestionIndex((prev) => {
-        const next = prev + 1;
-
-        if (next >= vowelsQuestions.length) {
-          return 0;
-        }
-
-        return next;
-      });
+      setQuestionIndex((prev) => prev + 1);
 
       setSelected(null);
       setStatus(null);
@@ -115,6 +124,7 @@ export function GamePage() {
       playUI("wrong");
 
       resetGameState();
+      registerWrongAnswer();
     }
 
     nextQuestion();
@@ -124,6 +134,26 @@ export function GamePage() {
 
   return (
     <Screen>
+      {sessionComplete && (
+        <SessionCompleteModal
+          score={score}
+          accuracy={accuracy}
+          onRetry={() => {
+            resetSession();
+
+            setQuestionIndex(0);
+            setSessionComplete(false);
+
+            setSelected(null);
+            setStatus(null);
+
+            setTimeout(() => {
+              setCurrentQuestion(buildQuestion(vowelsQuestions[0], 1));
+            }, 0);
+          }}
+        />
+      )}
+
       <TopHUD score={score} streak={streak} progress={progress} />
 
       <GameContainer>
