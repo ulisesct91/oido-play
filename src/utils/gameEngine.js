@@ -61,3 +61,11 @@ export function selectAdaptiveQuestion(questions, stats) {
 function randomQuestion(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
+
+export function calculateSpeed(streak) {
+  const base = 1400;
+
+  const reduction = streak * 45;
+
+  return Math.max(base - reduction, 650);
+}

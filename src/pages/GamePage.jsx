@@ -15,6 +15,7 @@ import {
   buildQuestion,
   calculateDifficulty,
   selectAdaptiveQuestion,
+  calculateSpeed,
 } from "../utils/gameEngine";
 
 import { SessionCompleteModal } from "../components/game/SessionCompleteModal";
@@ -58,6 +59,7 @@ export function GamePage() {
     updateDailyStreak,
   } = useGameStore();
   const difficulty = calculateDifficulty(streak);
+  const sessionSpeed = calculateSpeed(streak);
 
   const { playVoice, playUI } = useAudio();
 
@@ -93,7 +95,7 @@ export function GamePage() {
     totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
 
   const nextQuestion = () => {
-    const delay = difficulty >= 3 ? 900 : 1300;
+    const delay = sessionSpeed;
 
     setTimeout(() => {
       if (questionIndex >= SESSION_LENGTH - 1) {
@@ -205,6 +207,7 @@ export function GamePage() {
             shake={shakeCard}
             showPoints={showPoints}
             isPlaying={isPlaying}
+            sessionSpeed={sessionSpeed}
           />
         </AnimatePresence>
       </GameContainer>

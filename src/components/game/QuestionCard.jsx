@@ -18,6 +18,7 @@ export function QuestionCard({
   onAnswer,
   showPoints,
   isPlaying,
+  sessionSpeed,
 }) {
   return (
     <Card
@@ -30,14 +31,53 @@ export function QuestionCard({
         opacity: 1,
         scale: 1,
         y: 0,
+        boxShadow:
+          status === "correct"
+            ? [
+                "0 10px 40px rgba(31,38,135,0.08)",
+                "0 16px 60px rgba(80,200,120,0.16)",
+                "0 10px 40px rgba(31,38,135,0.08)",
+              ]
+            : status === "wrong"
+              ? [
+                  "0 10px 40px rgba(31,38,135,0.08)",
+                  "0 16px 60px rgba(255,107,107,0.14)",
+                  "0 10px 40px rgba(31,38,135,0.08)",
+                ]
+              : "0 10px 40px rgba(31,38,135,0.08)",
         x: shake ? [-6, 6, -5, 5, 0] : 0,
       }}
       exit={{
         opacity: 0,
         scale: 0.92,
       }}
+      transition={{
+        opacity: {
+          duration: 0.22,
+        },
+
+        scale: {
+          duration: 0.22,
+        },
+
+        y: {
+          duration: 0.22,
+        },
+
+        x: {
+          type: "spring",
+          stiffness: 300,
+          damping: 12,
+        },
+      }}
     >
-      <ComboBadge>x{combo.toFixed(1)}</ComboBadge>
+      <ComboBadge
+        animate={{
+          scale: combo > 1 ? [1, 1.08, 1] : 1,
+        }}
+      >
+        x{combo.toFixed(1)}
+      </ComboBadge>
       <FloatingScore visible={showPoints} value={10} />
       <SoundOrb onClick={onReplay} />
       <SoundVisualizer active={isPlaying} />
@@ -92,7 +132,7 @@ const Card = styled(motion.div)`
   text-align: center;
 `;
 
-const ComboBadge = styled.div`
+const ComboBadge = styled(motion.div)`
   position: absolute;
 
   top: 18px;
