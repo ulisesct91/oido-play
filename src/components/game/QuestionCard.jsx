@@ -6,6 +6,7 @@ import { OptionButton } from "./OptionButton";
 import { Mascot } from "./Mascot";
 
 export function QuestionCard({
+  shake,
   question,
   combo,
   streak,
@@ -25,6 +26,7 @@ export function QuestionCard({
         opacity: 1,
         scale: 1,
         y: 0,
+        x: shake ? [-10, 10, -8, 8, 0] : 0,
       }}
       exit={{
         opacity: 0,
