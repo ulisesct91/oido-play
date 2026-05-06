@@ -1,8 +1,10 @@
+import { speechEngine } from "../audio/speechEngine";
+
 import { audioManager } from "../audio/audioManager";
 
 export function useAudio() {
-  const playVoice = (soundName) => {
-    audioManager.play(`voice-${soundName}`);
+  const playVoice = (text) => {
+    speechEngine.speak(text);
   };
 
   const playUI = (name) => {
