@@ -16,6 +16,7 @@ export const useGameStore = create(
       stats: {},
 
       completedSessions: 0,
+      unlockedModes: ["vowels"],
       dailyStreak: 0,
       lastPlayedDate: null,
 
@@ -52,6 +53,16 @@ export const useGameStore = create(
         set((state) => ({
           completedSessions: state.completedSessions + 1,
         })),
+      unlockMode: (modeId) =>
+        set((state) => {
+          if (state.unlockedModes.includes(modeId)) {
+            return {};
+          }
+
+          return {
+            unlockedModes: [...state.unlockedModes, modeId],
+          };
+        }),
       updateDailyStreak: () =>
         set((state) => {
           const today = new Date().toDateString();

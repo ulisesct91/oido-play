@@ -1,5 +1,5 @@
 export const maFamilyMode = {
-  id: "ma-family",
+  id: "maFamily",
 
   title: "MA ME MI MO MU",
 

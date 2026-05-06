@@ -10,6 +10,7 @@ import { useAudio } from "../hooks/useAudio";
 import { TopHUD } from "../components/game/TopHUD";
 import { QuestionCard } from "../components/game/QuestionCard";
 import { CelebrationFX } from "../components/game/CelebrationFX";
+import { useParams } from "react-router-dom";
 
 import {
   buildQuestion,
@@ -23,6 +24,7 @@ import { SessionCompleteModal } from "../components/game/SessionCompleteModal";
 import { BackgroundDecor } from "../components/game/BackgroundDecor";
 
 export function GamePage() {
+  const { modeId } = useParams();
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [status, setStatus] = useState(null);
@@ -38,7 +40,8 @@ export function GamePage() {
 
   const [sessionComplete, setSessionComplete] = useState(false);
 
-  const mode = gameModes.maFamily;
+  const mode = gameModes[modeId];
+
   const SESSION_LENGTH = mode.sessionLength;
 
   const {
@@ -58,6 +61,7 @@ export function GamePage() {
     completeSession,
     dailyStreak,
     updateDailyStreak,
+    unlockMode,
   } = useGameStore();
   const difficulty = calculateDifficulty(streak);
   const sessionSpeed = calculateSpeed(streak);
@@ -94,6 +98,7 @@ export function GamePage() {
 
   const accuracy =
     totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
+  const MIN_ACCURACY = 70;
 
   const nextQuestion = () => {
     const delay = sessionSpeed;
@@ -101,6 +106,15 @@ export function GamePage() {
     setTimeout(() => {
       if (questionIndex >= SESSION_LENGTH - 1) {
         completeSession();
+        if (accuracy >= MIN_ACCURACY) {
+          if (mode.id === "vowels") {
+            unlockMode("maFamily");
+          }
+
+          if (mode.id === "maFamily") {
+            unlockMode("paFamily");
+          }
+        }
         updateDailyStreak();
         setSessionComplete(true);
         return;

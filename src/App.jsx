@@ -1,22 +1,20 @@
 // src/App.jsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { GlobalStyles } from "./styles/GlobalStyles";
-import { WelcomePage } from "./pages/WelcomePage";
-import { LevelSelectPage } from "./pages/LevelSelectPage";
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import { LevelsPage } from "./pages/LevelsPage";
 import { GamePage } from "./pages/GamePage";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
-      <GlobalStyles />
-
       <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/levels" element={<LevelSelectPage />} />
-        <Route path="/game/:levelId" element={<GamePage />} />
+        <Route path="/" element={<Navigate to="/levels" />} />
+
+        <Route path="/levels" element={<LevelsPage />} />
+
+        <Route path="/game/:modeId" element={<GamePage />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
