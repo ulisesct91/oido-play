@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { vowelsQuestions } from "../data/vowels";
+import { gameModes } from "../data/gameModes";
 import { AnimatePresence } from "framer-motion";
 import { useGameStore } from "../store/gameStore";
 import { useAudio } from "../hooks/useAudio";
@@ -22,8 +22,6 @@ import { SessionCompleteModal } from "../components/game/SessionCompleteModal";
 
 import { BackgroundDecor } from "../components/game/BackgroundDecor";
 
-const SESSION_LENGTH = 10;
-
 export function GamePage() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -39,6 +37,9 @@ export function GamePage() {
   const [shakeCard, setShakeCard] = useState(false);
 
   const [sessionComplete, setSessionComplete] = useState(false);
+
+  const mode = gameModes.vowels;
+  const SESSION_LENGTH = mode.sessionLength;
 
   const {
     score,
@@ -74,7 +75,7 @@ export function GamePage() {
   };
 
   const generateQuestion = () => {
-    const selectedQuestion = selectAdaptiveQuestion(vowelsQuestions, stats);
+    const selectedQuestion = selectAdaptiveQuestion(mode.questions, stats);
 
     return buildQuestion(selectedQuestion, difficulty);
   };
@@ -178,7 +179,7 @@ export function GamePage() {
             setStatus(null);
 
             setTimeout(() => {
-              setCurrentQuestion(buildQuestion(vowelsQuestions[0], 1));
+              setCurrentQuestion(buildQuestion(mode.questions[0], 1));
             }, 0);
           }}
         />
