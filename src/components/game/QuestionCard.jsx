@@ -3,10 +3,12 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { OptionButton } from "./OptionButton";
+import { Mascot } from "./Mascot";
 
 export function QuestionCard({
   question,
   combo,
+  streak,
   selected,
   status,
   onReplay,
@@ -30,7 +32,7 @@ export function QuestionCard({
       }}
     >
       <ComboBadge>x{combo.toFixed(1)}</ComboBadge>
-
+      <Mascot status={status} streak={streak} />
       <ListenButton whileTap={{ scale: 0.95 }} onClick={onReplay}>
         🔊
       </ListenButton>
@@ -46,8 +48,9 @@ export function QuestionCard({
             <OptionButton
               key={option}
               onClick={() => onAnswer(option)}
-              correct={status && isCorrect}
+              correct={status === "correct" && isSelected}
               wrong={status === "wrong" && isSelected}
+              showCorrectAnswer={status === "wrong" && isCorrect}
             >
               {option}
             </OptionButton>

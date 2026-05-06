@@ -20,6 +20,7 @@ export function GamePage() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [status, setStatus] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
 
   const {
     score,
@@ -35,36 +36,43 @@ export function GamePage() {
 
   const { playVoice, playUI } = useAudio();
 
-  const question = useMemo(() => {
+  const generateQuestion = () => {
     const selectedQuestion = selectAdaptiveQuestion(vowelsQuestions, stats);
 
     return buildQuestion(selectedQuestion, difficulty);
-  }, [questionIndex, difficulty, stats]);
+  };
 
   useEffect(() => {
-    playVoice(question.sound);
-  }, [question]);
+    setCurrentQuestion(generateQuestion());
+  }, []);
+
+  useEffect(() => {
+    if (!currentQuestion) return;
+
+    playVoice(currentQuestion.sound);
+  }, [currentQuestion]);
 
   const progress = ((questionIndex + 1) / vowelsQuestions.length) * 100;
 
   const nextQuestion = () => {
-    setTimeout(
-      () => {
-        setSelected(null);
-        setStatus(null);
+    const delay = difficulty >= 3 ? 900 : 1300;
 
-        setQuestionIndex((prev) => {
-          const next = prev + 1;
+    setTimeout(() => {
+      setCurrentQuestion(generateQuestion());
 
-          if (next >= vowelsQuestions.length) {
-            return 0;
-          }
+      setQuestionIndex((prev) => {
+        const next = prev + 1;
 
-          return next;
-        });
-      },
-      difficulty >= 3 ? 450 : 700,
-    );
+        if (next >= vowelsQuestions.length) {
+          return 0;
+        }
+
+        return next;
+      });
+
+      setSelected(null);
+      setStatus(null);
+    }, delay);
   };
 
   const handleAnswer = (option) => {
@@ -72,8 +80,8 @@ export function GamePage() {
 
     setSelected(option);
 
-    const isCorrect = option === question.correct;
-    registerAnswer(question.sound, isCorrect);
+    const isCorrect = option === currentQuestion.correct;
+    registerAnswer(currentQuestion.sound, isCorrect);
 
     if (isCorrect) {
       setStatus("correct");
@@ -97,6 +105,8 @@ export function GamePage() {
     nextQuestion();
   };
 
+  if (!currentQuestion) return null;
+
   return (
     <Screen>
       <TopHUD score={score} streak={streak} progress={progress} />
@@ -104,13 +114,14 @@ export function GamePage() {
       <GameContainer>
         <AnimatePresence mode="wait">
           <QuestionCard
-            key={question.id}
-            question={question}
+            key={currentQuestion.id}
+            question={currentQuestion}
             combo={combo}
             selected={selected}
             status={status}
-            onReplay={() => playVoice(question.sound)}
+            onReplay={() => playVoice(currentQuestion.sound)}
             onAnswer={handleAnswer}
+            streak={streak}
           />
         </AnimatePresence>
       </GameContainer>
