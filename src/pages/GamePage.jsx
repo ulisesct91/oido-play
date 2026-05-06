@@ -31,6 +31,10 @@ export function GamePage() {
 
   const [showConfetti, setShowConfetti] = useState(false);
 
+  const [showPoints, setShowPoints] = useState(false);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const [shakeCard, setShakeCard] = useState(false);
 
   const [sessionComplete, setSessionComplete] = useState(false);
@@ -57,6 +61,16 @@ export function GamePage() {
 
   const { playVoice, playUI } = useAudio();
 
+  const replayAudio = (sound) => {
+    setIsPlaying(true);
+
+    playVoice(sound);
+
+    setTimeout(() => {
+      setIsPlaying(false);
+    }, 1200);
+  };
+
   const generateQuestion = () => {
     const selectedQuestion = selectAdaptiveQuestion(vowelsQuestions, stats);
 
@@ -70,7 +84,7 @@ export function GamePage() {
   useEffect(() => {
     if (!currentQuestion) return;
 
-    playVoice(currentQuestion.sound);
+    replayAudio(currentQuestion.sound);
   }, [currentQuestion]);
 
   const progress = Math.min(((questionIndex + 1) / SESSION_LENGTH) * 100, 100);
@@ -107,6 +121,11 @@ export function GamePage() {
 
     if (isCorrect) {
       setStatus("correct");
+      setShowPoints(true);
+
+      setTimeout(() => {
+        setShowPoints(false);
+      }, 650);
       setShowConfetti(true);
 
       setTimeout(() => {
@@ -180,10 +199,12 @@ export function GamePage() {
             combo={combo}
             selected={selected}
             status={status}
-            onReplay={() => playVoice(currentQuestion.sound)}
+            onReplay={() => replayAudio(currentQuestion.sound)}
             onAnswer={handleAnswer}
             streak={streak}
             shake={shakeCard}
+            showPoints={showPoints}
+            isPlaying={isPlaying}
           />
         </AnimatePresence>
       </GameContainer>

@@ -80,8 +80,9 @@ const Button = styled(motion.button)`
   color: #2c2552;
 
   transition:
-    transform 0.18s,
-    box-shadow 0.18s;
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.3s;
 
   &:hover {
     transform: translateY(-2px);

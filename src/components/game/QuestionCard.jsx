@@ -3,8 +3,9 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { OptionButton } from "./OptionButton";
-import { Volume2 } from "lucide-react";
 import { SoundOrb } from "./SoundOrb";
+import { FloatingScore } from "./FloatingScore";
+import { SoundVisualizer } from "./SoundVisualizer";
 
 export function QuestionCard({
   shake,
@@ -15,6 +16,8 @@ export function QuestionCard({
   status,
   onReplay,
   onAnswer,
+  showPoints,
+  isPlaying,
 }) {
   return (
     <Card
@@ -27,7 +30,7 @@ export function QuestionCard({
         opacity: 1,
         scale: 1,
         y: 0,
-        x: shake ? [-10, 10, -8, 8, 0] : 0,
+        x: shake ? [-6, 6, -5, 5, 0] : 0,
       }}
       exit={{
         opacity: 0,
@@ -35,7 +38,9 @@ export function QuestionCard({
       }}
     >
       <ComboBadge>x{combo.toFixed(1)}</ComboBadge>
+      <FloatingScore visible={showPoints} value={10} />
       <SoundOrb onClick={onReplay} />
+      <SoundVisualizer active={isPlaying} />
 
       <QuestionText>¿Qué escuchaste?</QuestionText>
 
@@ -51,6 +56,13 @@ export function QuestionCard({
               correct={status === "correct" && isSelected}
               wrong={status === "wrong" && isSelected}
               showCorrectAnswer={status === "wrong" && isCorrect}
+              animate={
+                status === "correct" && isSelected
+                  ? {
+                      scale: [1, 1.05, 1],
+                    }
+                  : {}
+              }
             >
               {option}
             </OptionButton>
