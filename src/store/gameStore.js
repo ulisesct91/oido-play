@@ -16,6 +16,8 @@ export const useGameStore = create(
       stats: {},
 
       completedSessions: 0,
+      dailyStreak: 0,
+      lastPlayedDate: null,
 
       increaseScore: () =>
         set((state) => ({
@@ -50,7 +52,44 @@ export const useGameStore = create(
         set((state) => ({
           completedSessions: state.completedSessions + 1,
         })),
+      updateDailyStreak: () =>
+        set((state) => {
+          const today = new Date().toDateString();
 
+          const lastPlayed = state.lastPlayedDate;
+
+          if (!lastPlayed) {
+            return {
+              dailyStreak: 1,
+              lastPlayedDate: today,
+            };
+          }
+
+          const todayDate = new Date(today);
+
+          const lastDate = new Date(lastPlayed);
+
+          const diffDays = Math.floor(
+            (todayDate - lastDate) / (1000 * 60 * 60 * 24),
+          );
+
+          if (diffDays === 0) {
+            return {};
+          }
+
+          if (diffDays === 1) {
+            return {
+              dailyStreak: state.dailyStreak + 1,
+
+              lastPlayedDate: today,
+            };
+          }
+
+          return {
+            dailyStreak: 1,
+            lastPlayedDate: today,
+          };
+        }),
       resetSession: () =>
         set({
           score: 0,

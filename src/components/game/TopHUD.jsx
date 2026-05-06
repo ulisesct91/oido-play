@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { ProgressBar } from "./ProgressBar";
 
-export function TopHUD({ score, streak, progress, coins }) {
+export function TopHUD({ score, streak, progress, coins, dailyStreak }) {
   return (
     <Wrapper>
       <TopRow>
@@ -12,6 +12,7 @@ export function TopHUD({ score, streak, progress, coins }) {
         <StatCard>
           🔥 {streak}
           🪙 {Math.floor(coins)}
+          📅🔥 {dailyStreak}
         </StatCard>
       </TopRow>
 

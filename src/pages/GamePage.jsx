@@ -48,6 +48,8 @@ export function GamePage() {
     resetSession,
     coins,
     completeSession,
+    dailyStreak,
+    updateDailyStreak,
   } = useGameStore();
   const difficulty = calculateDifficulty(streak);
 
@@ -80,6 +82,7 @@ export function GamePage() {
     setTimeout(() => {
       if (questionIndex >= SESSION_LENGTH - 1) {
         completeSession();
+        updateDailyStreak();
         setSessionComplete(true);
         return;
       }
@@ -157,7 +160,13 @@ export function GamePage() {
         />
       )}
 
-      <TopHUD score={score} streak={streak} progress={progress} coins={coins} />
+      <TopHUD
+        score={score}
+        streak={streak}
+        progress={progress}
+        coins={coins}
+        dailyStreak={dailyStreak}
+      />
 
       <GameContainer>
         <CelebrationFX active={showConfetti} />
