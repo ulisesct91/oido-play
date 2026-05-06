@@ -38,7 +38,7 @@ export function GamePage() {
 
   const [sessionComplete, setSessionComplete] = useState(false);
 
-  const mode = gameModes.vowels;
+  const mode = gameModes.maFamily;
   const SESSION_LENGTH = mode.sessionLength;
 
   const {
