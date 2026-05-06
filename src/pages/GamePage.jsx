@@ -46,6 +46,8 @@ export function GamePage() {
     correctAnswers,
     registerWrongAnswer,
     resetSession,
+    coins,
+    completeSession,
   } = useGameStore();
   const difficulty = calculateDifficulty(streak);
 
@@ -74,9 +76,10 @@ export function GamePage() {
 
   const nextQuestion = () => {
     const delay = difficulty >= 3 ? 900 : 1300;
-    console.log("questionIndex", questionIndex);
+
     setTimeout(() => {
       if (questionIndex >= SESSION_LENGTH - 1) {
+        completeSession();
         setSessionComplete(true);
         return;
       }
@@ -154,7 +157,7 @@ export function GamePage() {
         />
       )}
 
-      <TopHUD score={score} streak={streak} progress={progress} />
+      <TopHUD score={score} streak={streak} progress={progress} coins={coins} />
 
       <GameContainer>
         <CelebrationFX active={showConfetti} />

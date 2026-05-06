@@ -3,13 +3,16 @@
 import styled from "styled-components";
 import { ProgressBar } from "./ProgressBar";
 
-export function TopHUD({ score, streak, progress }) {
+export function TopHUD({ score, streak, progress, coins }) {
   return (
     <Wrapper>
       <TopRow>
         <StatCard>⭐ {score}</StatCard>
 
-        <StatCard>🔥 {streak}</StatCard>
+        <StatCard>
+          🔥 {streak}
+          🪙 {Math.floor(coins)}
+        </StatCard>
       </TopRow>
 
       <ProgressBar progress={progress} />
@@ -24,7 +27,8 @@ const Wrapper = styled.div`
 
 const TopRow = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 14px;
 `;
 
 const StatCard = styled.div`
