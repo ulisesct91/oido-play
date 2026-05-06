@@ -24,12 +24,12 @@ export function OptionButton({
 }
 
 const Button = styled(motion.button)`
-  height: 86px;
+  height: 78px;
   border: 0;
-  border-radius: 28px;
+  border-radius: 22px;
 
-  font-size: 30px;
-  font-weight: 900;
+  font-size: 24px;
+  font-weight: 700;
 
   cursor: pointer;
 
@@ -72,11 +72,18 @@ const Button = styled(motion.button)`
       )
     `;
   }};
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  backdrop-filter: blur(12px);
 
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-  color: #191442;
+  color: #2c2552;
 
   transition:
-    background 0.2s,
-    transform 0.15s;
+    transform 0.18s,
+    box-shadow 0.18s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 `;

@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Volume2, Star } from "lucide-react";
 
 export function WelcomePage() {
   const navigate = useNavigate();
@@ -14,10 +15,14 @@ export function WelcomePage() {
         <Title>OídoPlay</Title>
         <Subtitle>Aprende a oír, juega y mejora</Subtitle>
 
-        <Feature>🔊 Escucha</Feature>
+        <Feature>
+          <Volume2 /> Escucha
+        </Feature>
         <Feature>🧠 Aprende</Feature>
         <Feature>✅ Responde</Feature>
-        <Feature>⭐ Gana recompensas</Feature>
+        <Feature>
+          <Star /> Gana recompensas
+        </Feature>
 
         <PrimaryButton onClick={() => navigate("/levels")}>Jugar</PrimaryButton>
       </Card>
@@ -77,7 +82,7 @@ const PrimaryButton = styled.button`
   border: 0;
   border-radius: 999px;
   background: linear-gradient(180deg, #ffe66d, #ffc93c);
-  color: #191442;
+  color: #2c2552;
   font-size: 18px;
   font-weight: 900;
   cursor: pointer;

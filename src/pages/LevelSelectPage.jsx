@@ -80,7 +80,7 @@ const Header = styled.div`
 const Title = styled.h1`
   margin: 0;
   font-size: 34px;
-  color: #191442;
+  color: #2c2552;
 `;
 
 const Coins = styled.div`

@@ -3,7 +3,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { OptionButton } from "./OptionButton";
-import { Mascot } from "./Mascot";
+import { Volume2 } from "lucide-react";
+import { SoundOrb } from "./SoundOrb";
 
 export function QuestionCard({
   shake,
@@ -34,10 +35,7 @@ export function QuestionCard({
       }}
     >
       <ComboBadge>x{combo.toFixed(1)}</ComboBadge>
-      <Mascot status={status} streak={streak} />
-      <ListenButton whileTap={{ scale: 0.95 }} onClick={onReplay}>
-        🔊
-      </ListenButton>
+      <SoundOrb onClick={onReplay} />
 
       <QuestionText>¿Qué escuchaste?</QuestionText>
 
@@ -69,59 +67,49 @@ const Card = styled(motion.div)`
   width: 100%;
   max-width: 430px;
 
-  padding: 34px 24px;
+  padding: 58px 28px 34px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.82);
 
-  border-radius: 38px;
+  backdrop-filter: blur(16px);
 
-  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.55);
 
-  backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 20px 80px rgba(80, 65, 150, 0.18),
-    0 8px 24px rgba(255, 255, 255, 0.3) inset;
+  box-shadow: 0 10px 40px rgba(31, 38, 135, 0.08);
 
   text-align: center;
 `;
 
 const ComboBadge = styled.div`
   position: absolute;
+
   top: 18px;
   right: 18px;
 
-  padding: 10px 16px;
+  padding: 8px 14px;
 
   border-radius: 999px;
 
-  background: linear-gradient(180deg, #ffe66d, #ffc93c);
+  background: rgba(255, 255, 255, 0.7);
 
-  font-weight: 900;
-`;
+  backdrop-filter: blur(12px);
 
-const ListenButton = styled(motion.button)`
-  width: 130px;
-  height: 130px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 
-  border-radius: 999px;
-  border: 0;
+  font-size: 14px;
+  font-weight: 700;
 
-  background: linear-gradient(180deg, #8b73ff, #5c45f5);
-
-  color: white;
-
-  font-size: 52px;
-
-  cursor: pointer;
-
-  box-shadow: 0 24px 50px rgba(92, 69, 245, 0.35);
+  color: #221b4b;
 `;
 
 const QuestionText = styled.h2`
-  margin-top: 28px;
+  margin-top: 18px;
+  font-size: 28px;
+  font-weight: 800;
 
-  font-size: 30px;
+  letter-spacing: -0.5px;
 
-  color: #191442;
+  color: #2c2552;
 `;
 
 const OptionsGrid = styled.div`

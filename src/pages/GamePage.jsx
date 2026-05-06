@@ -73,7 +73,7 @@ export function GamePage() {
     playVoice(currentQuestion.sound);
   }, [currentQuestion]);
 
-  const progress = ((questionIndex + 1) / vowelsQuestions.length) * 100;
+  const progress = Math.min(((questionIndex + 1) / SESSION_LENGTH) * 100, 100);
 
   const accuracy =
     totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
@@ -195,7 +195,7 @@ const Screen = styled.main`
   min-height: 100vh;
   padding: 24px;
 
-  background: radial-gradient(circle at top, #ffffff, #ede8ff);
+  background: linear-gradient(180deg, #f8f7fc 0%, #f3f0ff 100%);
 `;
 
 const GameContainer = styled.div`
@@ -203,4 +203,5 @@ const GameContainer = styled.div`
 
   display: grid;
   place-items: center;
+  padding-top: 32px;
 `;

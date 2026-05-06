@@ -10,7 +10,7 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-family: Inter, system-ui, sans-serif;
     background: #f6f4ff;
-    color: #191442;
+    color: #2c2552;
   }
 
   button {

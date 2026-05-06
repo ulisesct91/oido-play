@@ -1,44 +1,54 @@
-// src/components/game/TopHUD.jsx
-
 import styled from "styled-components";
 import { ProgressBar } from "./ProgressBar";
 
-export function TopHUD({ score, streak, progress, coins, dailyStreak }) {
+export function TopHUD({ score, streak, progress }) {
   return (
     <Wrapper>
       <TopRow>
-        <StatCard>⭐ {score}</StatCard>
+        <Pill>🔥 {streak}</Pill>
 
-        <StatCard>
-          🔥 {streak}
-          🪙 {Math.floor(coins)}
-          📅🔥 {dailyStreak}
-        </StatCard>
+        <Pill>⭐ {score}</Pill>
       </TopRow>
 
-      <ProgressBar progress={progress} />
+      <ProgressWrapper>
+        <ProgressBar progress={progress} />
+      </ProgressWrapper>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  max-width: 460px;
+  width: 100%;
+  max-width: 430px;
+
   margin: auto;
 `;
 
 const TopRow = styled.div`
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
 `;
 
-const StatCard = styled.div`
-  padding: 14px 18px;
-  border-radius: 22px;
+const Pill = styled.div`
+  padding: 12px 18px;
 
-  background: white;
+  border-radius: 999px;
 
-  font-weight: 900;
+  background: rgba(255, 255, 255, 0.7);
 
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #221b4b;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+`;
+
+const ProgressWrapper = styled.div`
+  margin-top: 24px;
 `;
