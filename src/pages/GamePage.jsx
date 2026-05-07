@@ -107,6 +107,8 @@ export function GamePage() {
         replayAudio={replayAudio}
         handleAnswer={handleAnswer}
         prompt={prompt}
+        questionIndex={questionIndex}
+        sessionLength={mode.sessionLength}
       />
     </Screen>
   );

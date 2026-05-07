@@ -6,6 +6,7 @@ import { OptionButton } from "./OptionButton";
 import { SoundOrb } from "./SoundOrb";
 import { FloatingScore } from "./FloatingScore";
 import { SoundVisualizer } from "./SoundVisualizer";
+import { SessionProgress } from "./SessionProgress";
 
 export function QuestionCard({
   shake,
@@ -20,6 +21,8 @@ export function QuestionCard({
   isPlaying,
   sessionSpeed,
   prompt,
+  questionNumber,
+  sessionLength,
 }) {
   return (
     <Card
@@ -84,7 +87,7 @@ export function QuestionCard({
       <SoundVisualizer active={isPlaying} />
 
       <QuestionText>{prompt}</QuestionText>
-
+      <SessionProgress current={questionNumber} total={sessionLength} />
       <OptionsGrid>
         {question.options.map((option) => {
           const isSelected = selected === option;
