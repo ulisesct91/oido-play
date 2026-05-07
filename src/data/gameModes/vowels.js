@@ -46,4 +46,14 @@ export const vowelsMode = {
       difficulty: 3,
     },
   ],
+
+  theme: {
+    emoji: "🎧",
+
+    gradient: "linear-gradient(180deg, #8f7cff, #5c45f5)",
+
+    accent: "#5c45f5",
+
+    background: "linear-gradient(180deg, #f8f7fc 0%, #f3f0ff 100%)",
+  },
 };

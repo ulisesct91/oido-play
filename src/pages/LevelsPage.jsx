@@ -45,9 +45,7 @@ export function LevelsPage() {
               }}
             >
               <TopRow>
-                <LevelEmoji>
-                  {isUnlocked ? (index === 0 ? "🎧" : "🎵") : "🔒"}
-                </LevelEmoji>
+                <LevelEmoji>{isUnlocked ? level.theme.emoji : "🔒"}</LevelEmoji>
 
                 <StatusBadge locked={!isUnlocked}>
                   {isUnlocked ? "Disponible" : "Bloqueado"}
@@ -58,7 +56,7 @@ export function LevelsPage() {
 
               <LevelInfo>{level.questions.length} ejercicios</LevelInfo>
 
-              <PlayButton locked={!isUnlocked}>
+              <PlayButton locked={!isUnlocked} gradient={level.theme.gradient}>
                 {isUnlocked ? "Jugar" : "Bloqueado"}
               </PlayButton>
             </LevelCard>
@@ -74,7 +72,7 @@ const Screen = styled.main`
 
   padding: 32px 24px;
 
-  background: linear-gradient(180deg, #f8f7fc, #f3f0ff);
+  background: ${({ gradient }) => gradient};
 `;
 
 const Header = styled.div`

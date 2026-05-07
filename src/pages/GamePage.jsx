@@ -72,7 +72,7 @@ export function GamePage() {
   if (!currentQuestion) return null;
 
   return (
-    <Screen>
+    <Screen background={mode.theme.background}>
       <BackgroundDecor />
       {sessionComplete && (
         <ProgressResultModal
@@ -114,5 +114,5 @@ const Screen = styled.main`
   min-height: 100vh;
   padding: 24px;
 
-  background: linear-gradient(180deg, #f8f7fc 0%, #f3f0ff 100%);
+  background: ${({ background }) => background};
 `;

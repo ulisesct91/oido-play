@@ -46,4 +46,13 @@ export const paFamilyMode = {
       difficulty: 3,
     },
   ],
+  theme: {
+    emoji: "🥁",
+
+    gradient: "linear-gradient(180deg, #ff9b7b, #ff6b57)",
+
+    accent: "#ff6b57",
+
+    background: "linear-gradient(180deg, #fff7f4 0%, #ffe9e2 100%)",
+  },
 };

@@ -46,4 +46,13 @@ export const maFamilyMode = {
       difficulty: 3,
     },
   ],
+  theme: {
+    emoji: "🎵",
+
+    gradient: "linear-gradient(180deg, #63b3ff, #3f8cff)",
+
+    accent: "#3f8cff",
+
+    background: "linear-gradient(180deg, #f4faff 0%, #e8f3ff 100%)",
+  },
 };
