@@ -1,7 +1,6 @@
 // src/pages/GamePage.jsx
-
+import { useState } from "react";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
 import { gameModes } from "../data/gameModes";
 import { AnimatePresence } from "framer-motion";
 import { useGameStore } from "../store/gameStore";
@@ -13,60 +12,24 @@ import { CelebrationFX } from "../components/game/CelebrationFX";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import {
-  buildQuestion,
-  calculateDifficulty,
-  selectAdaptiveQuestion,
-  calculateSpeed,
-} from "../utils/gameEngine";
+import { useGameSession } from "../hooks/useGameSession";
 
 import { ProgressResultModal } from "../components/game/ProgressResultModal";
 
 import { BackgroundDecor } from "../components/game/BackgroundDecor";
+import {
+  AUDIO_VISUALIZER_DURATION,
+  MIN_ACCURACY_TO_PASS,
+} from "../config/gameConfig";
 
 export function GamePage() {
   const { modeId } = useParams();
   const navigate = useNavigate();
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [status, setStatus] = useState(null);
-  const [currentQuestion, setCurrentQuestion] = useState(null);
-
-  const [showConfetti, setShowConfetti] = useState(false);
-
-  const [showPoints, setShowPoints] = useState(false);
-
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const [shakeCard, setShakeCard] = useState(false);
-
-  const [sessionComplete, setSessionComplete] = useState(false);
 
   const mode = gameModes[modeId];
 
-  const SESSION_LENGTH = mode.sessionLength;
-
-  const {
-    score,
-    streak,
-    combo,
-    increaseScore,
-    increaseStreak,
-    resetGameState,
-    stats,
-    registerAnswer,
-    totalAnswers,
-    correctAnswers,
-    registerWrongAnswer,
-    resetSession,
-    coins,
-    completeSession,
-    dailyStreak,
-    updateDailyStreak,
-    unlockMode,
-  } = useGameStore();
-  const difficulty = calculateDifficulty(streak);
-  const sessionSpeed = calculateSpeed(streak);
+  const { coins, dailyStreak } = useGameStore();
 
   const { playVoice, playUI } = useAudio();
 
@@ -77,129 +40,49 @@ export function GamePage() {
 
     setTimeout(() => {
       setIsPlaying(false);
-    }, 1200);
+    }, AUDIO_VISUALIZER_DURATION);
   };
+
+  const {
+    currentQuestion,
+
+    selected,
+    status,
+
+    sessionComplete,
+
+    showConfetti,
+    showPoints,
+    shakeCard,
+
+    questionIndex,
+
+    score,
+    streak,
+    combo,
+
+    accuracy,
+
+    sessionSpeed,
+
+    handleAnswer,
+    handleRetry,
+  } = useGameSession({
+    mode,
+    replayAudio,
+    playUI,
+  });
+  const progress = Math.min(
+    ((questionIndex + 1) / mode.sessionLength) * 100,
+    100,
+  );
+
   const handleExit = () => {
     navigate("/levels");
-  };
-  const handleRetry = () => {
-    resetSession();
-
-    setQuestionIndex(0);
-
-    setSessionComplete(false);
-
-    setSelected(null);
-
-    setStatus(null);
-
-    setShakeCard(false);
-
-    setShowPoints(false);
-
-    setShowConfetti(false);
-
-    setCurrentQuestion(generateQuestion());
   };
 
   const handleContinue = () => {
     navigate("/levels");
-  };
-
-  const generateQuestion = () => {
-    const selectedQuestion = selectAdaptiveQuestion(mode.questions, stats);
-
-    return buildQuestion(selectedQuestion, difficulty);
-  };
-
-  useEffect(() => {
-    setCurrentQuestion(generateQuestion());
-  }, []);
-
-  useEffect(() => {
-    if (!currentQuestion) return;
-
-    replayAudio(currentQuestion.sound);
-  }, [currentQuestion]);
-
-  const progress = Math.min(((questionIndex + 1) / SESSION_LENGTH) * 100, 100);
-
-  const accuracy =
-    totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
-  const MIN_ACCURACY = 70;
-
-  const nextQuestion = () => {
-    const delay = sessionSpeed;
-
-    setTimeout(() => {
-      if (questionIndex >= SESSION_LENGTH - 1) {
-        completeSession();
-        if (accuracy >= MIN_ACCURACY) {
-          if (mode.id === "vowels") {
-            unlockMode("maFamily");
-          }
-
-          if (mode.id === "maFamily") {
-            unlockMode("paFamily");
-          }
-        }
-        updateDailyStreak();
-        setSessionComplete(true);
-        return;
-      }
-      setCurrentQuestion(generateQuestion());
-
-      setQuestionIndex((prev) => prev + 1);
-
-      setSelected(null);
-      setStatus(null);
-    }, delay);
-  };
-
-  const handleAnswer = (option) => {
-    if (selected) return;
-
-    setSelected(option);
-
-    const isCorrect = option === currentQuestion.correct;
-    registerAnswer(currentQuestion.sound, isCorrect);
-
-    if (isCorrect) {
-      setStatus("correct");
-      setShowPoints(true);
-
-      setTimeout(() => {
-        setShowPoints(false);
-      }, 650);
-      setShowConfetti(true);
-
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 700);
-
-      playUI("correct");
-
-      if (combo >= 2) {
-        playUI("combo");
-      }
-
-      increaseScore();
-      increaseStreak();
-    } else {
-      setStatus("wrong");
-      setShakeCard(true);
-
-      setTimeout(() => {
-        setShakeCard(false);
-      }, 500);
-
-      playUI("wrong");
-
-      resetGameState();
-      registerWrongAnswer();
-    }
-
-    nextQuestion();
   };
 
   if (!currentQuestion) return null;
@@ -209,7 +92,7 @@ export function GamePage() {
       <BackgroundDecor />
       {sessionComplete && (
         <ProgressResultModal
-          requiredAccuracy={MIN_ACCURACY}
+          requiredAccuracy={MIN_ACCURACY_TO_PASS}
           score={score}
           accuracy={accuracy}
           onRetry={handleRetry}
