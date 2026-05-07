@@ -14,11 +14,28 @@ export const useGameStore = create(
       coins: 0,
 
       stats: {},
+      starsByMode: {},
 
       completedSessions: 0,
       unlockedModes: ["vowels"],
       dailyStreak: 0,
       lastPlayedDate: null,
+
+      saveStars: (modeId, stars) =>
+        set((state) => {
+          const currentStars = state.starsByMode[modeId] || 0;
+
+          if (stars <= currentStars) {
+            return {};
+          }
+
+          return {
+            starsByMode: {
+              ...state.starsByMode,
+              [modeId]: stars,
+            },
+          };
+        }),
 
       increaseScore: () =>
         set((state) => ({

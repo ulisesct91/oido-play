@@ -14,6 +14,7 @@ import {
   CONFETTI_DURATION,
   SHAKE_DURATION,
 } from "../config/gameConfig";
+import { calculateStars } from "../utils/starRating";
 
 import { getNextModeToUnlock } from "../utils/progressionEngine";
 
@@ -56,6 +57,7 @@ export function useGameSession({ mode, replayAudio, playUI }) {
     completeSession,
     updateDailyStreak,
     unlockMode,
+    saveStars,
   } = useGameStore();
 
   const difficulty = calculateDifficulty(streak);
@@ -87,6 +89,9 @@ export function useGameSession({ mode, replayAudio, playUI }) {
     setTimeout(() => {
       if (questionIndex >= SESSION_LENGTH - 1) {
         completeSession();
+        const earnedStars = calculateStars(accuracy);
+
+        saveStars(mode.id, earnedStars);
 
         if (accuracy >= MIN_ACCURACY_TO_PASS) {
           const nextMode = getNextModeToUnlock(mode.id);

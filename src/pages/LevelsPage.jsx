@@ -11,7 +11,7 @@ import { useGameStore } from "../store/gameStore";
 export function LevelsPage() {
   const navigate = useNavigate();
 
-  const { unlockedModes } = useGameStore();
+  const { unlockedModes, starsByMode } = useGameStore();
 
   const levels = Object.values(gameModes);
 
@@ -26,6 +26,7 @@ export function LevelsPage() {
       <LevelsGrid>
         {levels.map((level, index) => {
           const isUnlocked = unlockedModes.includes(level.id);
+          const stars = starsByMode[level.id] || 0;
 
           return (
             <LevelCard
@@ -55,6 +56,13 @@ export function LevelsPage() {
               <LevelTitle>{level.title}</LevelTitle>
 
               <LevelInfo>{level.questions.length} ejercicios</LevelInfo>
+              <StarsRow>
+                {[1, 2, 3].map((star) => (
+                  <Star key={star} filled={star <= stars}>
+                    ★
+                  </Star>
+                ))}
+              </StarsRow>
 
               <PlayButton locked={!isUnlocked} gradient={level.theme.gradient}>
                 {isUnlocked ? "Jugar" : "Bloqueado"}
@@ -213,4 +221,20 @@ const PlayButton = styled.div`
 
   font-size: 15px;
   font-weight: 700;
+`;
+
+const StarsRow = styled.div`
+  display: flex;
+
+  gap: 6px;
+
+  margin-top: 16px;
+`;
+
+const Star = styled.div`
+  font-size: 22px;
+
+  color: ${({ filled }) => (filled ? "#ffc83d" : "#ddd7f3")};
+
+  transition: 0.2s;
 `;
