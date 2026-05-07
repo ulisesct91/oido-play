@@ -50,7 +50,7 @@ export function LevelsPage() {
               <TopRow>
                 <LevelEmoji>{isUnlocked ? level.theme.emoji : "🔒"}</LevelEmoji>
 
-                <StatusBadge locked={!isUnlocked}>
+                <StatusBadge locked={!isUnlocked} completed={completed}>
                   {completed
                     ? "Completado"
                     : isUnlocked
@@ -126,7 +126,7 @@ const Subtitle = styled.div`
 
 const LevelsGrid = styled.div`
   display: grid;
-  gap: 20px;
+  gap: 16px;
 
   max-width: 520px;
 
@@ -134,10 +134,10 @@ const LevelsGrid = styled.div`
 `;
 
 const LevelCard = styled(motion.button)`
-  padding: 28px;
+  padding: 22px;
 
   border: 0;
-  border-radius: 30px;
+  border-radius: 26px;
 
   background: ${({ locked }) =>
     locked ? "rgba(240,240,248,0.7)" : "rgba(255,255,255,0.78)"};
@@ -182,16 +182,21 @@ const LevelEmoji = styled.div`
 `;
 
 const StatusBadge = styled.div`
-  padding: 8px 12px;
+  padding: 6px 12px;
 
   border-radius: 999px;
 
-  background: ${({ locked }) =>
-    locked ? "rgba(160,160,180,0.12)" : "rgba(123,97,255,0.1)"};
+  background: ${({ locked, completed }) =>
+    completed
+      ? "rgba(56,161,105,0.12)"
+      : locked
+        ? "rgba(160,160,180,0.12)"
+        : "rgba(123,97,255,0.1)"};
 
-  color: ${({ locked }) => (locked ? "#8a87a3" : "#5c45f5")};
+  color: ${({ locked, completed }) =>
+    completed ? "#38a169" : locked ? "#8a87a3" : "#5c45f5"};
 
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 `;
 
@@ -216,29 +221,27 @@ const LevelInfo = styled.div`
 `;
 
 const PlayButton = styled.div`
-  width: fit-content;
+  width: 100%;
 
-  margin-top: 24px;
+  margin-top: 22px;
 
-  padding: 12px 18px;
+  height: 52px;
 
-  border-radius: 999px;
+  border-radius: 18px;
 
-  background: ${({ locked }) =>
-    locked
-      ? "#d8d5ea"
-      : `
-          linear-gradient(
-            180deg,
-            #7b61ff,
-            #5c45f5
-          )
-        `};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: ${({ locked, gradient }) => (locked ? "#d8d5ea" : gradient)};
 
   color: ${({ locked }) => (locked ? "#7e7a99" : "white")};
 
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
+
+  box-shadow: ${({ locked }) =>
+    locked ? "none" : "0 10px 24px rgba(92,69,245,0.22)"};
 `;
 
 const StarsRow = styled.div`

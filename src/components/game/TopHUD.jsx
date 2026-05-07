@@ -50,5 +50,5 @@ const Pill = styled.div`
 `;
 
 const ProgressWrapper = styled.div`
-  margin-top: 24px;
+  margin-top: 14px;
 `;
