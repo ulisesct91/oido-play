@@ -2,13 +2,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { gameModes } from "../data/gameModes";
-import { AnimatePresence } from "framer-motion";
 import { useGameStore } from "../store/gameStore";
 import { useSpeechPlayback } from "../hooks/useSpeechPlayback";
+import { GameSession } from "../components/game/GameSession";
 
 import { TopHUD } from "../components/game/TopHUD";
-import { QuestionCard } from "../components/game/QuestionCard";
-import { CelebrationFX } from "../components/game/CelebrationFX";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -94,26 +92,20 @@ export function GamePage() {
         coins={coins}
         dailyStreak={dailyStreak}
       />
-
-      <GameContainer>
-        <CelebrationFX active={showConfetti} />
-        <AnimatePresence mode="wait">
-          <QuestionCard
-            key={currentQuestion.id}
-            question={currentQuestion}
-            combo={combo}
-            selected={selected}
-            status={status}
-            onReplay={() => replayAudio(currentQuestion.sound)}
-            onAnswer={handleAnswer}
-            streak={streak}
-            shake={shakeCard}
-            showPoints={showPoints}
-            isPlaying={isPlaying}
-            sessionSpeed={sessionSpeed}
-          />
-        </AnimatePresence>
-      </GameContainer>
+      <GameSession
+        currentQuestion={currentQuestion}
+        combo={combo}
+        selected={selected}
+        status={status}
+        streak={streak}
+        shakeCard={shakeCard}
+        showPoints={showPoints}
+        showConfetti={showConfetti}
+        isPlaying={isPlaying}
+        sessionSpeed={sessionSpeed}
+        replayAudio={replayAudio}
+        handleAnswer={handleAnswer}
+      />
     </Screen>
   );
 }
@@ -123,12 +115,4 @@ const Screen = styled.main`
   padding: 24px;
 
   background: linear-gradient(180deg, #f8f7fc 0%, #f3f0ff 100%);
-`;
-
-const GameContainer = styled.div`
-  min-height: calc(100vh - 140px);
-
-  display: grid;
-  place-items: center;
-  padding-top: 32px;
 `;
