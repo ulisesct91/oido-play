@@ -24,11 +24,11 @@ export function OptionButton({
 }
 
 const Button = styled(motion.button)`
-  height: 78px;
+  height: 64px;
   border: 0;
   border-radius: 22px;
 
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
 
   cursor: pointer;

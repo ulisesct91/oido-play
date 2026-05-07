@@ -123,7 +123,7 @@ const Card = styled(motion.div)`
   width: 100%;
   max-width: 430px;
 
-  padding: 58px 28px 34px;
+  padding: 34px 24px 24px;
   border-radius: 32px;
   background: rgba(255, 255, 255, 0.82);
 
@@ -136,26 +136,29 @@ const Card = styled(motion.div)`
   text-align: center;
 `;
 
-const ComboBadge = styled(motion.div)`
+const ComboBadge = styled.div`
   position: absolute;
 
   top: 18px;
   right: 18px;
 
-  padding: 8px 14px;
+  min-width: 58px;
+  height: 34px;
+
+  padding: 0 12px;
 
   border-radius: 999px;
 
-  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  backdrop-filter: blur(12px);
+  background: rgba(123, 97, 255, 0.1);
 
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #5c45f5;
 
   font-size: 14px;
-  font-weight: 700;
-
-  color: #221b4b;
+  font-weight: 800;
 `;
 
 const QuestionText = styled.h2`

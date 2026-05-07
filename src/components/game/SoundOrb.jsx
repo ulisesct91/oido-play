@@ -49,8 +49,8 @@ export function SoundOrb({ onClick }) {
 const Wrapper = styled.div`
   position: relative;
 
-  width: 220px;
-  height: 220px;
+  width: 145px;
+  height: 145px;
 
   margin: auto;
 `;

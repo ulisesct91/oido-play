@@ -66,5 +66,5 @@ const Container = styled.div`
 
   place-items: center;
 
-  padding-top: 32px;
+  padding-top: 15px;
 `;
