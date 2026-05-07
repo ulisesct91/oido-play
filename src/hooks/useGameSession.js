@@ -17,6 +17,7 @@ import {
 import { calculateStars } from "../utils/starRating";
 
 import { getNextModeToUnlock } from "../utils/progressionEngine";
+import { getRandomPrompt } from "../utils/questionPrompts";
 
 import { useGameStore } from "../store/gameStore";
 
@@ -28,6 +29,8 @@ export function useGameSession({ mode, replayAudio, playUI }) {
   const [status, setStatus] = useState(null);
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
+
+  const [prompt, setPrompt] = useState(getRandomPrompt());
 
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -109,6 +112,7 @@ export function useGameSession({ mode, replayAudio, playUI }) {
       }
 
       setCurrentQuestion(generateQuestion());
+      setPrompt(getRandomPrompt());
 
       setQuestionIndex((prev) => prev + 1);
 
@@ -211,6 +215,7 @@ export function useGameSession({ mode, replayAudio, playUI }) {
     accuracy,
 
     sessionSpeed,
+    prompt,
 
     handleAnswer,
     handleRetry,

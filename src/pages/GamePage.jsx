@@ -51,6 +51,7 @@ export function GamePage() {
 
     handleAnswer,
     handleRetry,
+    prompt,
   } = useGameSession({
     mode,
     replayAudio,
@@ -105,6 +106,7 @@ export function GamePage() {
         sessionSpeed={sessionSpeed}
         replayAudio={replayAudio}
         handleAnswer={handleAnswer}
+        prompt={prompt}
       />
     </Screen>
   );

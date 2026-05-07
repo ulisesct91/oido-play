@@ -19,6 +19,7 @@ export function QuestionCard({
   showPoints,
   isPlaying,
   sessionSpeed,
+  prompt,
 }) {
   return (
     <Card
@@ -82,7 +83,7 @@ export function QuestionCard({
       <SoundOrb onClick={onReplay} />
       <SoundVisualizer active={isPlaying} />
 
-      <QuestionText>¿Qué escuchaste?</QuestionText>
+      <QuestionText>{prompt}</QuestionText>
 
       <OptionsGrid>
         {question.options.map((option) => {

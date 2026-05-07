@@ -24,6 +24,7 @@ export function GameSession({
 
   replayAudio,
   handleAnswer,
+  prompt,
 }) {
   if (!currentQuestion) {
     return null;
@@ -47,6 +48,7 @@ export function GameSession({
           showPoints={showPoints}
           isPlaying={isPlaying}
           sessionSpeed={sessionSpeed}
+          prompt={prompt}
         />
       </AnimatePresence>
     </Container>
