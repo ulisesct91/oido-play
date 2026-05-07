@@ -11,6 +11,7 @@ import { TopHUD } from "../components/game/TopHUD";
 import { QuestionCard } from "../components/game/QuestionCard";
 import { CelebrationFX } from "../components/game/CelebrationFX";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   buildQuestion,
@@ -19,12 +20,13 @@ import {
   calculateSpeed,
 } from "../utils/gameEngine";
 
-import { SessionCompleteModal } from "../components/game/SessionCompleteModal";
+import { ProgressResultModal } from "../components/game/ProgressResultModal";
 
 import { BackgroundDecor } from "../components/game/BackgroundDecor";
 
 export function GamePage() {
   const { modeId } = useParams();
+  const navigate = useNavigate();
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [status, setStatus] = useState(null);
@@ -76,6 +78,32 @@ export function GamePage() {
     setTimeout(() => {
       setIsPlaying(false);
     }, 1200);
+  };
+  const handleExit = () => {
+    navigate("/levels");
+  };
+  const handleRetry = () => {
+    resetSession();
+
+    setQuestionIndex(0);
+
+    setSessionComplete(false);
+
+    setSelected(null);
+
+    setStatus(null);
+
+    setShakeCard(false);
+
+    setShowPoints(false);
+
+    setShowConfetti(false);
+
+    setCurrentQuestion(generateQuestion());
+  };
+
+  const handleContinue = () => {
+    navigate("/levels");
   };
 
   const generateQuestion = () => {
@@ -180,22 +208,13 @@ export function GamePage() {
     <Screen>
       <BackgroundDecor />
       {sessionComplete && (
-        <SessionCompleteModal
+        <ProgressResultModal
+          requiredAccuracy={MIN_ACCURACY}
           score={score}
           accuracy={accuracy}
-          onRetry={() => {
-            resetSession();
-
-            setQuestionIndex(0);
-            setSessionComplete(false);
-
-            setSelected(null);
-            setStatus(null);
-
-            setTimeout(() => {
-              setCurrentQuestion(buildQuestion(mode.questions[0], 1));
-            }, 0);
-          }}
+          onRetry={handleRetry}
+          onContinue={handleContinue}
+          onExit={handleExit}
         />
       )}
 
