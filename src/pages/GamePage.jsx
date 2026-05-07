@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { gameModes } from "../data/gameModes";
 import { AnimatePresence } from "framer-motion";
 import { useGameStore } from "../store/gameStore";
-import { useAudio } from "../hooks/useAudio";
+import { useSpeechPlayback } from "../hooks/useSpeechPlayback";
 
 import { TopHUD } from "../components/game/TopHUD";
 import { QuestionCard } from "../components/game/QuestionCard";
@@ -17,31 +17,17 @@ import { useGameSession } from "../hooks/useGameSession";
 import { ProgressResultModal } from "../components/game/ProgressResultModal";
 
 import { BackgroundDecor } from "../components/game/BackgroundDecor";
-import {
-  AUDIO_VISUALIZER_DURATION,
-  MIN_ACCURACY_TO_PASS,
-} from "../config/gameConfig";
+import { MIN_ACCURACY_TO_PASS } from "../config/gameConfig";
 
 export function GamePage() {
   const { modeId } = useParams();
   const navigate = useNavigate();
-  const [isPlaying, setIsPlaying] = useState(false);
 
   const mode = gameModes[modeId];
 
   const { coins, dailyStreak } = useGameStore();
 
-  const { playVoice, playUI } = useAudio();
-
-  const replayAudio = (sound) => {
-    setIsPlaying(true);
-
-    playVoice(sound);
-
-    setTimeout(() => {
-      setIsPlaying(false);
-    }, AUDIO_VISUALIZER_DURATION);
-  };
+  const { isPlaying, replayAudio, playUI } = useSpeechPlayback();
 
   const {
     currentQuestion,
