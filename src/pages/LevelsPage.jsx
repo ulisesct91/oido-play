@@ -11,7 +11,7 @@ import { useGameStore } from "../store/gameStore";
 export function LevelsPage() {
   const navigate = useNavigate();
 
-  const { unlockedModes, starsByMode } = useGameStore();
+  const { unlockedModes, starsByMode, completedModes } = useGameStore();
 
   const levels = Object.values(gameModes);
 
@@ -27,6 +27,7 @@ export function LevelsPage() {
         {levels.map((level, index) => {
           const isUnlocked = unlockedModes.includes(level.id);
           const stars = starsByMode[level.id] || 0;
+          const completed = completedModes.includes(level.id);
 
           return (
             <LevelCard
@@ -44,12 +45,17 @@ export function LevelsPage() {
 
                 navigate(`/game/${level.id}`);
               }}
+              completed={completed}
             >
               <TopRow>
                 <LevelEmoji>{isUnlocked ? level.theme.emoji : "🔒"}</LevelEmoji>
 
                 <StatusBadge locked={!isUnlocked}>
-                  {isUnlocked ? "Disponible" : "Bloqueado"}
+                  {completed
+                    ? "Completado"
+                    : isUnlocked
+                      ? "Disponible"
+                      : "Bloqueado"}
                 </StatusBadge>
               </TopRow>
 
@@ -63,6 +69,7 @@ export function LevelsPage() {
                   </Star>
                 ))}
               </StarsRow>
+              {completed && <CompletedRow>✅ Completado</CompletedRow>}
 
               <PlayButton locked={!isUnlocked} gradient={level.theme.gradient}>
                 {isUnlocked ? "Jugar" : "Bloqueado"}
@@ -75,6 +82,14 @@ export function LevelsPage() {
   );
 }
 
+const CompletedRow = styled.div`
+  margin-top: 14px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #38a169;
+`;
 const Screen = styled.main`
   min-height: 100vh;
 
@@ -137,7 +152,10 @@ const LevelCard = styled(motion.button)`
 
   opacity: ${({ locked }) => (locked ? 0.72 : 1)};
 
-  box-shadow: 0 10px 30px rgba(31, 38, 135, 0.08);
+  box-shadow: ${({ completed }) =>
+    completed
+      ? "0 16px 40px rgba(92,69,245,0.18)"
+      : "0 10px 30px rgba(31,38,135,0.08)"};
 
   transition:
     transform 0.2s,

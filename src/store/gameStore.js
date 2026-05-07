@@ -15,11 +15,23 @@ export const useGameStore = create(
 
       stats: {},
       starsByMode: {},
+      completedModes: [],
 
       completedSessions: 0,
       unlockedModes: ["vowels"],
       dailyStreak: 0,
       lastPlayedDate: null,
+
+      completeMode: (modeId) =>
+        set((state) => {
+          if (state.completedModes.includes(modeId)) {
+            return {};
+          }
+
+          return {
+            completedModes: [...state.completedModes, modeId],
+          };
+        }),
 
       saveStars: (modeId, stars) =>
         set((state) => {

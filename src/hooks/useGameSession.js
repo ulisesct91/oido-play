@@ -61,6 +61,7 @@ export function useGameSession({ mode, replayAudio, playUI }) {
     updateDailyStreak,
     unlockMode,
     saveStars,
+    completeMode,
   } = useGameStore();
 
   const difficulty = calculateDifficulty(streak);
@@ -97,6 +98,7 @@ export function useGameSession({ mode, replayAudio, playUI }) {
         saveStars(mode.id, earnedStars);
 
         if (accuracy >= MIN_ACCURACY_TO_PASS) {
+          completeMode(mode.id);
           const nextMode = getNextModeToUnlock(mode.id);
 
           if (nextMode) {
