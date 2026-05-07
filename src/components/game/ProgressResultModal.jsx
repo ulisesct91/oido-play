@@ -35,6 +35,11 @@ export function ProgressResultModal({
         <StatusBadge passed={passed}>
           {passed ? "Nivel completado" : "Sigue practicando"}
         </StatusBadge>
+        <Title>{passed ? "¡Muy bien!" : "Buen intento"}</Title>
+
+        <Subtitle>
+          {passed ? "Completaste la práctica" : "Cada intento mejora 💙"}
+        </Subtitle>
 
         <RingWrapper>
           <RingBackground />
@@ -51,8 +56,6 @@ export function ProgressResultModal({
             </RingMiniBadge>
           </RingContent>
         </RingWrapper>
-
-        <Accuracy>Precisión: {accuracy}%</Accuracy>
 
         {passed ? (
           <>
@@ -190,15 +193,6 @@ const StatusBadge = styled.div`
   font-weight: 700;
 `;
 
-const Accuracy = styled.div`
-  margin-top: 28px;
-
-  font-size: 20px;
-  font-weight: 800;
-
-  color: #2c2552;
-`;
-
 const UnlockCard = styled.div`
   margin-top: 24px;
 
@@ -252,12 +246,11 @@ const SecondaryButton = styled(motion.button)`
 
   margin-top: 14px;
 
-  border: 0;
   border-radius: 20px;
 
-  background: rgba(255, 255, 255, 0.72);
+  background: white;
 
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid #ece7ff;
 
   color: #5f5980;
 
@@ -265,12 +258,18 @@ const SecondaryButton = styled(motion.button)`
   font-weight: 700;
 
   cursor: pointer;
+
+  transition: 0.2s;
+
+  &:hover {
+    background: #faf8ff;
+  }
 `;
 
 const Title = styled.div`
-  margin-top: 26px;
+  margin-top: 24px;
 
-  font-size: 52px;
+  font-size: 42px;
   font-weight: 800;
 
   letter-spacing: -2px;
@@ -279,9 +278,9 @@ const Title = styled.div`
 `;
 
 const Subtitle = styled.div`
-  margin-top: 10px;
+  margin-top: 8px;
 
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
 
   color: #8a84b2;
@@ -293,7 +292,7 @@ const RingWrapper = styled.div`
   width: 280px;
   height: 280px;
 
-  margin: 36px auto 0;
+  margin: 48px auto 0;
 `;
 
 const RingBackground = styled.div`
@@ -302,7 +301,7 @@ const RingBackground = styled.div`
 
   border-radius: 999px;
 
-  border: 18px solid #efebff;
+  border: 14px solid #efebff;
 `;
 
 const RingProgress = styled.div`
@@ -311,7 +310,7 @@ const RingProgress = styled.div`
 
   border-radius: 999px;
 
-  border: 18px solid transparent;
+  border: 14px solid transparent;
 
   border-top-color: ${({ passed }) => (passed ? "#5c45f5" : "#ff7a7a")};
 
@@ -340,9 +339,9 @@ const RingLabel = styled.div`
 `;
 
 const RingValue = styled.div`
-  margin-top: 10px;
+  margin-top: 6px;
 
-  font-size: 92px;
+  font-size: 84px;
   font-weight: 800;
 
   line-height: 1;
@@ -355,7 +354,7 @@ const RingValue = styled.div`
 const RingMiniBadge = styled.div`
   margin-top: 18px;
 
-  padding: 12px 18px;
+  padding: 10px 16px;
 
   border-radius: 999px;
 
@@ -363,7 +362,7 @@ const RingMiniBadge = styled.div`
 
   color: #5c45f5;
 
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
 `;
 
