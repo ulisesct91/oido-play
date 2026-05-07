@@ -36,17 +36,33 @@ export function ProgressResultModal({
           {passed ? "Nivel completado" : "Sigue practicando"}
         </StatusBadge>
 
-        <ScoreCircle passed={passed}>
-          <BigScore>{score}</BigScore>
+        <RingWrapper>
+          <RingBackground />
 
-          <ScoreLabel>puntos</ScoreLabel>
-        </ScoreCircle>
+          <RingProgress accuracy={accuracy} passed={passed} />
+
+          <RingContent>
+            <RingLabel>Tu precisión</RingLabel>
+
+            <RingValue>{accuracy}%</RingValue>
+
+            <RingMiniBadge>
+              {passed ? "¡Muy bien! 💙" : "Sigue practicando"}
+            </RingMiniBadge>
+          </RingContent>
+        </RingWrapper>
 
         <Accuracy>Precisión: {accuracy}%</Accuracy>
 
         {passed ? (
           <>
-            <Message>¡Excelente trabajo! 💙</Message>
+            <Title>{passed ? "¡Muy bien!" : "Buen intento"}</Title>
+
+            <Subtitle>
+              {passed
+                ? "Completaste la práctica"
+                : "Cada intento mejora tu oído 💙"}
+            </Subtitle>
 
             {unlockedLevel && (
               <UnlockCard>
@@ -61,15 +77,19 @@ export function ProgressResultModal({
               }}
               onClick={onContinue}
             >
-              Continuar
+              → Continuar
             </PrimaryButton>
           </>
         ) : (
           <>
-            <Message>
-              Necesitas {requiredAccuracy}% de precisión para desbloquear el
-              siguiente nivel.
-            </Message>
+            <RequirementCard>
+              <RequirementIcon>⭐</RequirementIcon>
+
+              <RequirementText>
+                Necesitas {requiredAccuracy}% de precisión para desbloquear el
+                siguiente nivel.
+              </RequirementText>
+            </RequirementCard>
 
             <PrimaryButton
               whileTap={{
@@ -77,7 +97,7 @@ export function ProgressResultModal({
               }}
               onClick={onRetry}
             >
-              Intentar otra vez
+              ↻ Intentar otra vez
             </PrimaryButton>
           </>
         )}
@@ -88,7 +108,7 @@ export function ProgressResultModal({
           }}
           onClick={onExit}
         >
-          Volver a niveles
+          ⌂ Volver a niveles
         </SecondaryButton>
       </Modal>
     </Overlay>
@@ -117,7 +137,7 @@ const Modal = styled(motion.div)`
 
   overflow: hidden;
 
-  padding: 42px 28px;
+  padding: 32px 28px;
 
   border-radius: 36px;
 
@@ -170,57 +190,6 @@ const StatusBadge = styled.div`
   font-weight: 700;
 `;
 
-const ScoreCircle = styled.div`
-  width: 170px;
-  height: 170px;
-
-  margin: 28px auto 0;
-
-  border-radius: 999px;
-
-  background: ${({ passed }) =>
-    passed
-      ? `
-          linear-gradient(
-            180deg,
-            #7b61ff,
-            #5c45f5
-          )
-        `
-      : `
-          linear-gradient(
-            180deg,
-            #ff9f9f,
-            #ff6b6b
-          )
-        `};
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  color: white;
-
-  box-shadow: 0 20px 50px
-    ${({ passed }) =>
-      passed ? "rgba(92,69,245,0.28)" : "rgba(255,107,107,0.22)"};
-`;
-
-const BigScore = styled.div`
-  font-size: 54px;
-  font-weight: 800;
-`;
-
-const ScoreLabel = styled.div`
-  margin-top: 4px;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  opacity: 0.85;
-`;
-
 const Accuracy = styled.div`
   margin-top: 28px;
 
@@ -228,17 +197,6 @@ const Accuracy = styled.div`
   font-weight: 800;
 
   color: #2c2552;
-`;
-
-const Message = styled.div`
-  margin-top: 18px;
-
-  font-size: 16px;
-  font-weight: 500;
-
-  color: #6b648f;
-
-  line-height: 1.5;
 `;
 
 const UnlockCard = styled.div`
@@ -307,4 +265,149 @@ const SecondaryButton = styled(motion.button)`
   font-weight: 700;
 
   cursor: pointer;
+`;
+
+const Title = styled.div`
+  margin-top: 26px;
+
+  font-size: 52px;
+  font-weight: 800;
+
+  letter-spacing: -2px;
+
+  color: #221b4b;
+`;
+
+const Subtitle = styled.div`
+  margin-top: 10px;
+
+  font-size: 22px;
+  font-weight: 600;
+
+  color: #8a84b2;
+`;
+
+const RingWrapper = styled.div`
+  position: relative;
+
+  width: 280px;
+  height: 280px;
+
+  margin: 36px auto 0;
+`;
+
+const RingBackground = styled.div`
+  position: absolute;
+  inset: 0;
+
+  border-radius: 999px;
+
+  border: 18px solid #efebff;
+`;
+
+const RingProgress = styled.div`
+  position: absolute;
+  inset: 0;
+
+  border-radius: 999px;
+
+  border: 18px solid transparent;
+
+  border-top-color: ${({ passed }) => (passed ? "#5c45f5" : "#ff7a7a")};
+
+  border-right-color: ${({ passed }) => (passed ? "#5c45f5" : "#ff7a7a")};
+
+  transform: rotate(${({ accuracy }) => accuracy * 3.6}deg);
+
+  transition: 0.6s;
+`;
+
+const RingContent = styled.div`
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const RingLabel = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+
+  color: #6b648f;
+`;
+
+const RingValue = styled.div`
+  margin-top: 10px;
+
+  font-size: 92px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: -4px;
+
+  color: #221b4b;
+`;
+
+const RingMiniBadge = styled.div`
+  margin-top: 18px;
+
+  padding: 12px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(123, 97, 255, 0.08);
+
+  color: #5c45f5;
+
+  font-size: 18px;
+  font-weight: 700;
+`;
+
+const RequirementCard = styled.div`
+  display: flex;
+  gap: 18px;
+
+  align-items: center;
+
+  margin-top: 36px;
+
+  padding: 20px;
+
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.7);
+
+  border: 1px solid rgba(123, 97, 255, 0.08);
+`;
+
+const RequirementIcon = styled.div`
+  width: 54px;
+  height: 54px;
+
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 215, 0, 0.12);
+
+  font-size: 28px;
+`;
+
+const RequirementText = styled.div`
+  flex: 1;
+
+  text-align: left;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  color: #5f5980;
 `;
